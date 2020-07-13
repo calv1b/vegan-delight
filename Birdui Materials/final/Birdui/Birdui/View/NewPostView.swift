@@ -15,7 +15,8 @@ struct NewPostView: View {
   @State var username: String = ""
   @State var postText: String = ""
   @State var showImagePicker = false
-  @State var uiImage: UIImage?
+  @State var inputImage: UIImage?
+  @State var image: Image?
   
   let imageSize: CGFloat = 200
   
@@ -28,8 +29,8 @@ struct NewPostView: View {
         Button("Pick image") {
           self.showImagePicker = true
         }
-        if uiImage != nil {
-          Image(uiImage: uiImage!)
+        if inputImage != nil {
+          Image(uiImage: inputImage!)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: imageSize, height: imageSize)
@@ -42,18 +43,25 @@ struct NewPostView: View {
         }
         Spacer()
         Button("Post") {
-          self.postHandler.addPost(post: MediaPost(textBody: self.postText, userName: self.username, timestamp: Date(), uiImage: self.uiImage))
+          self.postHandler.addPost(post: MediaPost(textBody: self.postText, userName: self.username, timestamp: Date(), uiImage: self.inputImage))
           self.presentationMode.wrappedValue.dismiss()
         }
         .disabled(username.isEmpty && postText.isEmpty)
       }
       .padding()
     }
-    .sheet(isPresented: $showImagePicker) {
+    .sheet(isPresented: $showImagePicker, onDismiss: loadImage) {
       // TODO: Show ImagePicker
-      Text("Replace with code to show ImagePicker")
+//      Text("Replace with code to show ImagePicker")
+      ImagePicker(image: self.$inputImage)
     }
   }
+  
+  func loadImage() {
+    guard let inputImage = inputImage else { return }
+    image = Image(uiImage: inputImage)
+  }
+  
 }
 
 struct NewPostView_Previews: PreviewProvider {
