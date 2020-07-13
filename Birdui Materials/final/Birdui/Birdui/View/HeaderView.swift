@@ -9,7 +9,11 @@
 import SwiftUI
 
 struct HeaderView: View {
+  @State var modalIsPresented = false
+  
+  
     var body: some View {
+      
       VStack(alignment: .leading) {
         HStack {
           Image("mascot_swift-badge").resizable().frame(width: 50.0, height: 50.0)
@@ -21,11 +25,15 @@ struct HeaderView: View {
           Spacer()
         }
 
-        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+        Button(action: { self.modalIsPresented = true }) {
           Text("Create New Post")
             .font(.subheadline)
             .padding(.leading)
+            .sheet(isPresented: $modalIsPresented) {
+              NewPostView(postHandler: PostViewModel())
+          }
         }
+
       }
       
   }
