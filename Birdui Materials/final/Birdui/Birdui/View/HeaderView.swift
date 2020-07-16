@@ -10,6 +10,7 @@ import SwiftUI
 
 struct HeaderView: View {
   @State var modalIsPresented = false
+  var postHandler: PostViewModel
   
   
     var body: some View {
@@ -30,7 +31,7 @@ struct HeaderView: View {
             .font(.subheadline)
             .padding(.leading)
             .sheet(isPresented: $modalIsPresented) {
-              NewPostView(postHandler: PostViewModel())
+              NewPostView(postHandler: self.postHandler)
           }
         }
 
@@ -41,7 +42,7 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-      HeaderView()
+      HeaderView(postHandler: PostViewModel())
         .previewLayout(.sizeThatFits)
       
     }

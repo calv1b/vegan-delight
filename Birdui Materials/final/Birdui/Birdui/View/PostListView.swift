@@ -10,12 +10,12 @@ import SwiftUI
 
 struct PostListView: View {
   
-  var postView = PostViewModel.init()
+  @ObservedObject var postView = PostViewModel.init()
   let image = Image("mascot_swift-badge")
   
   var body: some View {
       VStack(alignment: .leading) {
-          HeaderView()
+        HeaderView(postHandler: postView)
         List {
           ForEach(postView.posts.indices) { index in
             PostView(post: self.postView.posts[index])
